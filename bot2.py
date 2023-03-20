@@ -6,11 +6,12 @@ import numpy as np
 import time
 from torch.utils.data import TensorDataset, DataLoader
 import pandas as pd
+from torch.utils.tensorboard import SummaryWriter
 
 # define start and end date of the data you want to fetch
 start_date = "2023-02-12"
 end_date = "2023-03-19"
-
+writer = SummaryWriter()
 # split the date range into multiple intervals of 7 days each
 date_ranges = pd.date_range(start=start_date, end=end_date, freq="7D")
 
@@ -41,7 +42,7 @@ stock_data_normalized = normalize_data(stock_data)
 
 # Define input size, hidden size, number of layers, and output size for the LSTM model
 input_size = 6
-hidden_size = 64
+hidden_size = 32
 num_layers = 5
 output_size = 1
 batch_size = 32
@@ -88,8 +89,8 @@ x_train, x_test = x[:train_size], x[train_size:]
 y_train, y_test = y[:train_size], y[train_size:]
 
 # Train the LSTM model
-learning_rate = 0.006
-num_epochs = 500
+learning_rate = 0.004
+num_epochs = 200
 
 model = LSTM(input_size, hidden_size, num_layers, output_size, batch_size)
 
@@ -106,7 +107,7 @@ for epoch in range(num_epochs):
 
     if epoch % 10 == 0:
         print("Epoch [{}/{}], Loss: {:.4f}".format(epoch+1, num_epochs, loss.item()))
-
+    writer.add_scalar('Loss/train', loss.item(), epoch)
 # Test the LSTM model
 with torch.no_grad():
     x_test_normalized = normalize_data(stock_data.iloc[train_size+5:len(stock_data)-1])
@@ -115,14 +116,17 @@ with torch.no_grad():
     test_dataset = TensorDataset(x_test, y_test)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 # Make predictions on the test dataset using the trained model
-
+    
     outputs = model(x_test)
     predicted_probs = torch.sigmoid(outputs)
     predicted_labels = (predicted_probs > 0.5).float().squeeze()
 
 # Convert the true labels to a NumPy array
-true_labels = y_test.numpy()
+    true_labels = y_test.numpy()
 
 # Calculate the accuracy
-accuracy = (predicted_labels.numpy() == true_labels).mean() * 100
-print("Accuracy: {:.2f}%".format(accuracy))
+    accuracy = (predicted_labels.numpy() == true_labels).mean() * 100
+    print("Accuracy: {:.2f}%".format(accuracy))
+    writer.add_scalar('Accuracy/test', accuracy, 0)
+
+writer.close()
