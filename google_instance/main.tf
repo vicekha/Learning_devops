@@ -1,7 +1,4 @@
-provider "google" {
-  project = var.project
-  region  = var.region
-}
+
 resource "google_service_account" "default" {
   account_id   = var.account_id
   display_name = var.display_name
@@ -13,7 +10,7 @@ resource "google_compute_address" "static_ip" {
 
 # Create a DNS record that uses the static IP
 resource "google_dns_record_set" "dns_record" {
-  name    = "youville.com"
+  name    = var.DNS-NAME
   type    = "A"
   ttl     = 300
   rrdatas = [google_compute_address.static_ip.address]
@@ -26,7 +23,7 @@ resource "google_compute_instance" "default" {
   
   provisioner "DockerFile" {
     source = "/Users/devopslearn/Documents/GitHub/Learning_devops/Dockerfile"
-    destination = ""
+    destination = "/home"
   }
 
   
@@ -49,13 +46,5 @@ resource "google_compute_instance" "default" {
 
   
 
-  metadata_startup_script = "echo hi > /test.txt"
-
-  service_account {
-    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    email  = google_service_account.default.email
-    scopes = ["cloud-platform"]
-  }
-
-
-
+  
+  

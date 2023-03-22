@@ -1,7 +1,13 @@
+variable "DNS-NAME" {
+type = string
+default = "example.com"
+description = "dns name"
+}
+
 variable "ADDRESS_TYPE" {
 type = string 
 default = "EXTERNAL"
-descrdescription = "can be INTERNAL OR EXTERNAL address"  
+description = "can be INTERNAL OR EXTERNAL address"  
 }
 
 

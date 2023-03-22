@@ -89,8 +89,8 @@ x_train, x_test = x[:train_size], x[train_size:]
 y_train, y_test = y[:train_size], y[train_size:]
 
 # Train the LSTM model
-learning_rate = 0.004
-num_epochs = 200
+learning_rate = 0.005
+num_epochs = 40000
 
 model = LSTM(input_size, hidden_size, num_layers, output_size, batch_size)
 
@@ -130,3 +130,10 @@ with torch.no_grad():
     writer.add_scalar('Accuracy/test', accuracy, 0)
 
 writer.close()
+
+# Save the trained LSTM model
+torch.save(model.state_dict(), 'lstm_model.pth')
+
+# # Load the saved LSTM model
+# model = LSTM(input_size, hidden_size, num_layers, output_size, batch_size)
+# model.load_state_dict(torch.load('lstm_model.pth'))
