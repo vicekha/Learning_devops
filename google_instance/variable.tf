@@ -1,7 +1,11 @@
+variable "MANAGED_ZONE" {
+type = string 
+description = "dns name"
+}
 variable "DNS-NAME" {
 type = string
 default = "example.com"
-description = "dns name"
+description = "url for dns"
 }
 
 variable "ADDRESS_TYPE" {
