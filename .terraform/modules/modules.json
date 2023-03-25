@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"testing_module","Source":"/Users/devopslearn/Documents/GitHub/Learning_devops/modules","Dir":".terraform/modules/testing_module"},{"Key":"website_s3_bucket","Source":"./modules/google_instance","Dir":"modules/google_instance"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"testing_module","Source":"/Users/devopslearn/Documents/GitHub/Learning_devops/modules","Dir":".terraform/modules/testing_module"},{"Key":"website_s3_bucket","Source":"./modules/google_instance2.0","Dir":"modules/google_instance2.0"}]}

@@ -2,7 +2,11 @@ resource "google_service_account" "default" {
   account_id   = var.Account_id
   display_name = var.Display_name
 }
-
+data "google_dns_managed_zone" "my_managed_zone" {
+  name = var.MANAGED_ZONE
+  
+  
+}
 resource "google_compute_address" "static_ip" {
   name         = var.NAME
   address_type = var.ADDRESS_TYPE

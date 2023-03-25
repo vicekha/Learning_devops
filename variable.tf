@@ -1,5 +1,6 @@
 variable "MANAGED_ZONE" {
-type = string 
+type = string
+default = "devops-project" 
 description = "dns name"
 }
 variable "DNS-NAME" {
