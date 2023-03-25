@@ -89,8 +89,8 @@ x_train, x_test = x[:train_size], x[train_size:]
 y_train, y_test = y[:train_size], y[train_size:]
 
 # Train the LSTM model
-learning_rate = 0.005
-num_epochs = 40000
+learning_rate = 0.001
+num_epochs = 200
 
 model = LSTM(input_size, hidden_size, num_layers, output_size, batch_size)
 

@@ -1,3 +1,3 @@
-module "website_s3_bucket" {
+module "devop" {
   source = "/Users/devopslearn/Documents/GitHub/Learning_devops/google_instance"
 }
