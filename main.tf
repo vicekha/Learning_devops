@@ -1,5 +1,5 @@
 module "website_s3_bucket" {
-  source       = "./modules/google_instance"
+  source       = "./modules/google_instance2.0"
   instance_name= "testing_jenkins!"
   Project      = "logical-vim-376815"
   Region       = "us-central1"
