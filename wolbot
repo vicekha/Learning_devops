@@ -1,0 +1,48 @@
+(* Load FinancialData package *)
+Needs["FinancialData`"];
+
+(* Retrieve historical stock price data for Apple *)
+appleData = FinancialData["AAPL", {{2022, 1, 1}, Today, "Minute"}, "Value"];
+
+(* Create a time series from the stock price data *)
+appleTS = TimeSeries[appleData];
+
+(* Split the time series into training and testing sets *)
+splitPoint = Floor[Length[appleTS] * 0.8];
+trainTS = Take[appleTS, splitPoint];
+testTS = Drop[appleTS, splitPoint];
+
+(* Use the training data to create a predictor function *)
+applePredictor = Predict[trainTS, Method -> "NeuralNetwork"];
+
+(* Define an accuracy function using the testing data *)
+accuracy[threshold_] := Module[{predictions},
+  (* Use the predictor function to make predictions on the testing data *)
+  predictions = TimeSeriesMap[applePredictor, testTS];
+
+  (* Compute the percentage of correct predictions based on the threshold *)
+  Mean[Boole[Abs[Differences[predictions]]/testTS["PathLength"] > threshold]]
+]
+
+(* Test the accuracy function with a threshold of 0.01 *)
+accuracy[0.01]
+
+
+
+(* Load FinancialData package *)
+Needs["FinancialData`"];
+
+(* Retrieve historical stock price data for Apple *)
+appleData = FinancialData["AAPL", {{2022, 1, 1}, Today, "Minute"}, "Value"];
+
+(* Create a time series from the stock price data *)
+appleTS = TimeSeries[appleData];
+
+(* Use the time series to create a predictor function *)
+applePredictor = Predict[appleTS, Method -> "NeuralNetwork"];
+
+
+
+appleData = FinancialData["AAPL", "OHLCV", {{2022, 1, 1}, Today}, "Minute"];
+
+appleModel = Predict[appleData, Method -> "RandomForest"];
