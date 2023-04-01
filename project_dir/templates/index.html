@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Prediction</title>
+</head>
+<body>
+  <h1>Stock Prediction</h1>
+  <h2>Current prediction:</h2>
+  <p>{{ prediction }}</p>
+  <h2>Prediction accuracy:</h2>
+  <p>{{ accuracy }}</p>
+  <h2>Previous predictions</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Direction</th>
+        <th>Correctness</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for prev_prediction in prev_predictions %}
+      <tr>
+        <td>{{ prev_prediction['direction'] }}</td>
+        <td>{% if prev_prediction['correct'] == None %}
+            N/A
+          {% elif prev_prediction['correct'] == True %}
+            Correct
+          {% else %}
+            Incorrect
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      setInterval(function() {
+        $.ajax({
+          url: "{{ url_for('home') }}",
+          success: function(data) {
+            $('body').html(data);
+          }
+        });
+      }, 60000);
+    });
+  </script>
+</body>
+</html>
+
+
+
